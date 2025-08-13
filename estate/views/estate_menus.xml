@@ -1,0 +1,17 @@
+<odoo>
+  <!-- Root menu -->
+  <menuitem id="menu_estate_root" name="Estate"/>
+
+  <!-- Parent -->
+  <menuitem id="menu_estate_first_level" name="Apartments" parent="menu_estate_root"/>
+
+  <!-- Child -->
+  <menuitem 
+            id="menu_estate_property"
+            name="See Listings"
+            parent="menu_estate_first_level"
+            action="action_estate_property"
+            />
+
+
+</odoo>

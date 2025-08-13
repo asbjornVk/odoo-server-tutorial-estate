@@ -1,0 +1,11 @@
+/odoo/
+__pycache__/
+*.pyc
+*.log
+*.swp
+.env
+.vscode/
+.idea/
+.DS_Store
+node_modules/
+.odoo/
