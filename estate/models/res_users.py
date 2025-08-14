@@ -7,7 +7,7 @@ class ResUsers(models.Model):
 
     
     estate_property_count = fields.Integer(
-        string="Properties",
+        string="Property Count",
         compute="_compute_estate_property_count",
     )
 
