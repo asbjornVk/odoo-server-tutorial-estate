@@ -3,9 +3,13 @@ from odoo import models, fields, _
 class ResUsers(models.Model):
     _inherit = "res.users"
 
-    # Alle ejendomme hvor brugeren er sælger (du har allerede salesperson_id på estate.property)
-    ###
+
+    # All properties where the user is the salesperson (salesperson_id already exists on estate.property)
+    #estate_property_ids = fields.One2many("estate.property", "salesperson_id", string="My Properties")
+
+   
     estate_property_ids = fields.One2many("estate.property", "salesperson_id", string="My Properties")
+
     
     estate_property_count = fields.Integer(
         string="Properties",
@@ -23,7 +27,7 @@ class ResUsers(models.Model):
     def _compute_estate_property_count(self):
         counts = self.env["estate.property"].read_group(
             [("salesperson_id", "in", self.ids),
-             ('state', 'in', ['new', 'offer_received', 'offer_accepted'])], #delete hvis den fejler
+             ('state', 'in', ['new', 'offer_received', 'offer_accepted'])], # remove if it causes errors
             fields=["salesperson_id"],
             groupby=["salesperson_id"],
         )

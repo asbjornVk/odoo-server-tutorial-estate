@@ -47,7 +47,7 @@ class EstatePropertyOffer(models.Model):
         for vals in vals_list:
             prop_id = vals.get('property_id')
             if prop_id:
-                # find højeste eksisterende pris for denne property
+                # find the highest existing price for this property
                 existing_max = self.search_read(
                     [('property_id', '=', prop_id)],
                     ['price'],
@@ -59,7 +59,7 @@ class EstatePropertyOffer(models.Model):
 
         records = super().create(vals_list)
 
-        # sæt state på alle berørte properties
+        # set the state on all affected properties
         props = Property.browse(list({v.get('property_id') for v in vals_list if v.get('property_id')}))
         if props:
             props.write({'state': 'offer_received'})
