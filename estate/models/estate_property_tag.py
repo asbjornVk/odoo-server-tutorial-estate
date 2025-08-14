@@ -5,6 +5,9 @@ class EstatePropertyTag(models.Model):
     _description = 'Estate Property Tag'
     _order = 'name'
 
+    _sql_constraints = [
+        ('estate_property_tag_name_unique', 'UNIQUE(name)', 'Tag name must be unique.')]
+
     name = fields.Char(string='Name', required=True)
     color = fields.Integer(string="Color")
     
@@ -30,5 +33,4 @@ class EstatePropertyTag(models.Model):
             'context': {'default_tag_ids': [self.id]},
         }
 
-    _sql_constraints = [
-        ('estate_property_tag_name_unique', 'UNIQUE(name)', 'Tag name must be unique.')]
+

@@ -7,6 +7,9 @@ class EstatePropertyOffer(models.Model):
     _description = 'Estate Property Offer'
     _order = 'price desc'
 
+    _sql_constraints = [
+        ('check_price_positive', 'CHECK(price >= 0)', 'Offer price must be positive.'),]
+
     property_type_id = fields.Many2one(
         'estate.property.type',
         string='Property Type',
@@ -98,6 +101,5 @@ class EstatePropertyOffer(models.Model):
             if rec.status != 'accepted':
                 rec.status = 'refused'
 
-    _sql_constraints = [
-        ('check_price_positive', 'CHECK(price >= 0)', 'Offer price must be positive.'),]
+
     

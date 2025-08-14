@@ -2,11 +2,6 @@ from odoo import models, fields, _
 
 class ResUsers(models.Model):
     _inherit = "res.users"
-
-
-    # All properties where the user is the salesperson (salesperson_id already exists on estate.property)
-    #estate_property_ids = fields.One2many("estate.property", "salesperson_id", string="My Properties")
-
    
     estate_property_ids = fields.One2many("estate.property", "salesperson_id", string="My Properties")
 

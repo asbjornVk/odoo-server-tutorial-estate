@@ -5,6 +5,9 @@ class EstatePropertyType(models.Model):
     _description = 'Real Estate Property Type'
     _order = 'sequence, name'
 
+    _sql_constraints = [
+        ('estate_property_type_name_unique', 'UNIQUE(name)', 'Property type name must be unique.')]
+
     name = fields.Char(string='Name', required=True)
     sequence = fields.Integer(string='Sequence', default=10, help="Used to order property types")
     color = fields.Integer(string='Color Index', default=0, help="Color index for the property type in kanban views")
@@ -57,5 +60,3 @@ class EstatePropertyType(models.Model):
         for rec in self:
             rec.offer_count = len(rec.offer_ids)
 
-    _sql_constraints = [
-        ('estate_property_type_name_unique', 'UNIQUE(name)', 'Property type name must be unique.')]

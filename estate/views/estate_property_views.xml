@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
   <!-- LIST VIEW -->
-  <record id="view_estate_property_tree" model="ir.ui.view">
-    <field name="name">estate.property.tree</field>
+  <record id="view_estate_property_list" model="ir.ui.view">
+    <field name="name">estate.property.list</field>
     <field name="model">estate.property</field>
     <field name="type">list</field>
     <field name="arch" type="xml">
@@ -175,7 +175,7 @@
     <field name="res_model">estate.property</field>
     <field name="view_mode">kanban,list,form</field>
     <field name="views"
-      eval="[(ref('view_estate_property_tree'), 'list'), (ref('view_estate_property_form'), 'form')]" />
+      eval="[(ref('view_estate_property_list'), 'list'), (ref('view_estate_property_form'), 'form')]" />
     <field name="context">{'search_default_filter_available': 1}</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">

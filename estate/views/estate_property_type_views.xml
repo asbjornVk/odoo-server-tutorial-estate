@@ -2,8 +2,8 @@
 <odoo>
 
   <!-- LIST VIEW -->
-  <record id="view_estate_property_type_tree" model="ir.ui.view">
-    <field name="name">estate.property.type.tree</field>
+  <record id="view_estate_property_type_list" model="ir.ui.view">
+    <field name="name">estate.property.type.list</field>
     <field name="model">estate.property.type</field>
     <field name="type">list</field>
     <field name="arch" type="xml">

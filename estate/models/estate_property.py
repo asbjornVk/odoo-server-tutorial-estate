@@ -7,7 +7,9 @@ class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Real Estate Property'
     _order = 'id desc'
-    
+    _sql_constraints = [
+        ('check_expected_price_positive', 'CHECK(expected_price > 0)', 'Expected price must be positive.'),
+        ('check_selling_price_positive', 'CHECK(selling_price >= 0)', 'Selling price must be positive.'),]
     
     property_type_id = fields.Many2one('estate.property.type', string='Property Type', required=True)
     color = fields.Integer(string="Color")
@@ -137,8 +139,6 @@ class EstateProperty(models.Model):
                 raise UserError(_("You cannot delete a property that is not new or cancelled."))
 
 
-    _sql_constraints = [
-        ('check_expected_price_positive', 'CHECK(expected_price > 0)', 'Expected price must be positive.'),
-        ('check_selling_price_positive', 'CHECK(selling_price >= 0)', 'Selling price must be positive.'),]
+
 
    
