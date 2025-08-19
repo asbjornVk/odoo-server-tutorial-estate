@@ -1,0 +1,46 @@
+<templates xml:space="preserve">
+    <t t-name="awesome_clicker.ClickerClientAction">
+        <div class="ms-1 mt-1">
+            <span>Clicks: <ClickerValue/></span>
+            <button class="btn btn-primary ms-1" t-on-click="() => this.clicker.increment(9)">
+                Increment
+            </button>
+        </div>
+
+        <div t-if="this.clicker.level >= 1" class="ms-1 mt-1">
+            <h2> Bots </h2>
+            <div class="d-flex flex-row">
+                <t t-foreach="this.clicker.bots" t-as="bot" t-key="bot">
+                    <div t-if="bot_value.level lte this.clicker.level" class="card me-3">
+                        <div class="card-eader">
+                            <t t-esc="bot_value.purchased"/>x <t t-esc="bot"/> (<t t-esc="bot_value.increment * this.clicker.multiplier"/> clicks/5seconds)
+                            <i class="fa fa-android"></i>
+                        </div>
+                        <div class="card-body">
+                            <button t-on-click="() => this.clicker.buyBot(bot)" class="btn btn-primary" t-att-disabled="this.clicker.clicks lt bot_value.price">
+                                Buy <t t-esc="bot"/> (<t t-esc="bot_value.price"/> clicks)
+                            </button>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+
+        <div t-if="this.clicker.level >= 3" class="ms-1 mt-1">
+            <h2> Power Multiplier </h2>
+            <div class="d-flex flex-row">
+                <div class="card me-3">
+                    <div class="card-header">
+                        <t t-esc="this.clicker.multiplier"/>x
+                        <i class="fa fa-superpowers"></i>
+                    </div>
+                    <div class="card-body">
+                        <button t-on-click="() => this.clicker.buyMultiplier()" class="btn btn-primary" t-att-disabled="this.clicker.click lt 5000">
+                            Buy Power Multiplier (5000 click)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
