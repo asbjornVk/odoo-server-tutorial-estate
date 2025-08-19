@@ -9,3 +9,6 @@ __pycache__/
 .DS_Store
 node_modules/
 .odoo/
+/tutorials/awesome_gallery/
+/tutorials/awesome_kanban/
+/tutorials/website_airproof/
