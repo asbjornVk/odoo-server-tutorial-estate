@@ -14,7 +14,8 @@ class EstatePropertyTag(models.Model):
     property_count = fields.Integer(
         string='Properties',
         compute='_compute_property_count',
-        help="Number of properties associated with this tag"
+        help="Number of properties associated with this tag",
+        compute_sudo=True
     )
 
     def _compute_property_count(self):

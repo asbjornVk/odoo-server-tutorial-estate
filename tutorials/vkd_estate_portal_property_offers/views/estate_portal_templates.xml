@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="portal_my_home_inherit_estate_hub" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[@id='portal_client_category']" position="inside">
+            <div class="o_portal_index_card col-md-6">
+                <a href="/my/estate" title="Estate"
+                    class="d-flex gap-2 gap-md-3 py-3 pe-2 px-md-3 h-100 rounded text-decoration-none bg-100">
+                    <div class="o_portal_icon d-block align-self-start">
+                        <i class="fa fa-home fa-4x" />
+                    </div>
+                    <div>
+                        <div class="mt-10 mb-1 fs-5 fw-normal lh-1 d-flex gap-2">
+                            <span>Estate</span>
+                        </div>
+                        <div class="opacity-75">Browse properties &amp; your bids</div>
+                    </div>
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Redirect to Website -->
+    <template id="portal_my_home_redirect_website" inherit_id="portal.portal_my_home">
+        <xpath expr="//div[@id='portal_client_category']" position="inside">
+            <div class="o_portal_index_card col-md-6">
+                <a href="/estate" title="Website"
+                    class="d-flex gap-2 gap-md-3 py-3 pe-2 px-md-3 h-100 rounded text-decoration-none bg-100">
+                    <div class="o_portal_icon d-block align-self-start">
+                        <i class="fa fa-home fa-4x" />
+                    </div>
+                    <div>
+                        <div class="mt-10 mb-1 fs-5 fw-normal lh-1 d-flex gap-2">
+                            <span>Website Estate Catalog</span>
+                        </div>
+                        <div class="opacity-75">Go to website</div>
+                    </div>
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- HUB: /my/estate -->
+    <template id="portal_estate_hub" name="Estate Hub">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_wrap">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h3>Estate</h3>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <a class="o_portal_docs_item card p-3" href="/my/estate/properties">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-building-o me-2" />
+                                <div>
+                                    <div class="fw-bold">Properties</div>
+                                    <small t-if="props_count">(<t t-esc="props_count" /> items)</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <a class="o_portal_docs_item card p-3" href="/my/estate/my-offers">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-gavel me-2" />
+                                <div>
+                                    <div class="fw-bold">My Offers</div>
+                                    <small t-if="my_offers_count">(<t t-esc="my_offers_count" />
+                                        offers)</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- PROPERTIES LIST: /my/estate/properties -->
+    <template id="portal_estate_properties" name="Estate Properties">
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_wrap">
+                <h3>Estate Properties</h3>
+
+                <t t-if="not properties">
+                    <p>No properties to show.</p>
+                </t>
+                <t t-else="">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Expected price</th>
+                                <th>Availability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="properties" t-as="p">
+                                <td>
+                                    <a t-attf-href="/my/estate/properties/#{p.id}">
+                                        <t t-esc="p.display_name" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <span t-field="p.expected_price" />
+                                </td>
+                                <td>
+                                    <span t-field="p.date_availability"
+                                        t-options="{'format': 'short'}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- PROPERTY DETAIL: /my/estate/properties/<id> -->
+    <template id="portal_property_detail_page" name="Property Detail">
+
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_wrap">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0">
+                        <t t-esc="estate.display_name" />
+                    </h2>
+                    <a class="btn btn-secondary" href="/my/estate/properties">← Back to properties</a>
+                </div>
+                <t t-if="error_msg">
+                    <div class="alert alert-danger">
+                        <t t-esc="error_msg" />
+                    </div>
+                </t>
+
+                <!-- Redirect Feedback -->
+                <t t-if="request.params.get('error') == 'invalid_amount'">
+                    <div class="alert alert-danger">Please enter a valid number.</div>
+                </t>
+                <t t-if="request.params.get('error') == 'non_positive'">
+                    <div class="alert alert-danger">Amount must be greater than zero.</div>
+                </t>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p>
+                            <strong>Expected price:</strong>
+                            <span t-field="estate.expected_price" />
+                        </p>
+                        <p>
+                            <strong>Highest offer:</strong>
+                            <span t-field="estate.best_price" />
+                        </p>
+                        <p>
+                            <strong>Availability:</strong>
+                            <span t-field="estate.date_availability" t-options="{'format': 'short'}" />
+                        </p>
+                        <p>
+                            <strong>Bedrooms:</strong>
+                            <t t-esc="estate.bedrooms or 0" />
+                        </p>
+                        <p><strong>Living area:</strong> <t t-esc="estate.living_area or 0" /> m²</p>
+                        <t t-if="estate.description">
+                            <hr />
+                            <p class="mt-3">
+                                <strong>Description</strong>
+                            </p>
+                            <div t-esc="estate.description" />
+                        </t>
+                    </div>
+                </div>
+
+                <!-- OFFER-FORM -->
+                <div class="card">
+                    <div class="card-body">
+                        <form t-attf-action="/my/estate/properties/#{estate.id}/bid" method="post"
+                            class="row g-2">
+                            <input type="hidden" name="csrf_token"
+                                t-att-value="request.csrf_token()" />
+                            <div class="col-auto">
+                                <input type="number" step="0.01" name="amount"
+                                    placeholder="Your bid" required="1" class="form-control" />
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Place bid</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- MY OFFERS: /my/estate/my-offers -->
+    <template id="portal_my_estate_offers" name="My Estate Offers">
+
+        <t t-call="portal.portal_layout">
+            <div class="o_portal_wrap">
+                <h3>My Estate Offers</h3>
+                <t t-if="just_submitted">
+                    <div class="alert alert-success"> Your bid has been recorded!</div>
+                </t>
+                <t t-if="not offers">
+                    <p>No offers yet.</p>
+                </t>
+                <t t-else="">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Property</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="offers" t-as="o">
+                                <td>
+                                    <a t-attf-href="/my/estate/properties/#{o.property_id.id}">
+                                        <t t-esc="o.property_id.display_name" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <span t-field="o.price" />
+                                </td>
+                                <td>
+                                    <t t-esc="o.status" />
+                                </td>
+                                <td>
+                                    <span t-field="o.create_date" t-options="{'format': 'short'}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

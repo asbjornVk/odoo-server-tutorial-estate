@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="website_menu_estate" model="website.menu">
+    <field name="name">Estate</field>
+    <field name="url">/estate</field>
+    <field name="parent_id" ref="website.main_menu"/>
+    <field name="website_id" ref="website.default_website"/>
+    <field name="sequence">50</field>
+    <field name="new_window">False</field>
+  </record>
+</odoo>

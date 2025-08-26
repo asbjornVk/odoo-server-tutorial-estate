@@ -1,6 +1,6 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
 import datetime
+from odoo import models, fields, api, _, SUPERUSER_ID
+from odoo.exceptions import UserError, ValidationError
 
 class EstatePropertyOffer(models.Model):
     _name = 'estate.property.offer'
@@ -41,7 +41,8 @@ class EstatePropertyOffer(models.Model):
         compute='_compute_date_deadline',
         inverse='_inverse_date_deadline',
         store=True,
-        help='Deadline for the offer based on the validity period.'
+        help='Deadline for the offer based on the validity period.',
+        compute_sudo=True,
     )
 
     @api.model_create_multi
@@ -65,7 +66,7 @@ class EstatePropertyOffer(models.Model):
         # set the state on all affected properties
         props = Property.browse(list({v.get('property_id') for v in vals_list if v.get('property_id')}))
         if props:
-            props.write({'state': 'offer_received'})
+            props.with_user(SUPERUSER_ID).write({'state': 'offer_received'})
 
         return records
 
@@ -85,6 +86,7 @@ class EstatePropertyOffer(models.Model):
 
     # Action methods
     def action_accept(self):
+        self.ensure_one()
         for rec in self:
             if rec.property_id.offer_ids.filtered(lambda o: o.status == 'accepted'):
                 raise UserError(_("This property already has an accepted offer."))
@@ -97,6 +99,8 @@ class EstatePropertyOffer(models.Model):
             (rec.property_id.offer_ids - rec).write({'status': 'refused'})
     
     def action_refuse(self):
+        self.ensure_one()
+
         for rec in self:
             if rec.status != 'accepted':
                 rec.status = 'refused'

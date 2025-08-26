@@ -1,12 +1,14 @@
+import logging
 from odoo import api, models, _
 from odoo import Command
-import logging
+
 _logger = logging.getLogger(__name__)
 
 class EstateProperty(models.Model):
     _inherit = "estate.property"
 
     def action_sold(self):
+        self.ensure_one()
         """Extend sell action: create a customer invoice for the buyer,
         then continue the normal flow via super().
         """
@@ -47,7 +49,7 @@ class EstateProperty(models.Model):
                 "invoice_line_ids": [
                     # 6% commission
                     Command.create({
-                        "name": _("Commission 6% of selling price"),
+                        "name": ("Commission 6% of selling price"),
                         "quantity": 1.0,
                         "price_unit": commission,
                     }),

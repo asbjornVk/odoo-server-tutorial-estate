@@ -21,6 +21,7 @@ class EstatePropertyType(models.Model):
     offer_count = fields.Integer(
         compute='_compute_offer_count',
         string='Offer Count',
+        compute_sudo=True,
     )
 
 
@@ -32,6 +33,7 @@ class EstatePropertyType(models.Model):
         help="Properties of this type"
     )
     property_count = fields.Integer(
+        compute_sudo=True,
         compute='_compute_property_count')
 
     @api.depends('property_ids')

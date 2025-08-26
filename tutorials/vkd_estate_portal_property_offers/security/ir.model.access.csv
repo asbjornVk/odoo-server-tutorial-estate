@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+estate_property_portal_read,Estate Property read (portal),estate.model_estate_property,base.group_portal,1,0,0,0
+estate_offer_portal_cr,Estate Offer C/R (portal),estate.model_estate_property_offer,base.group_portal,1,0,1,0

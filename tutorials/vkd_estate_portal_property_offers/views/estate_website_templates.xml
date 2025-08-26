@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <!-- LIST: /estate -->
+  <template id="website_estate_list" name="Estate (Website List)">
+    <t t-call="website.layout">
+      <div class="container my-4">
+        <!-- simple breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">
+              <i class="fa fa-home fa-lg me-1" aria-hidden="true"></i>Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Estate</li>
+          </ol>
+        </nav>
+
+        <h1 class="h3 mb-3">Estate</h1>
+        <t t-if="not properties">
+          <div class="alert alert-info">No properties available right now.</div>
+        </t>
+        <t t-else="">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 col-lg-4" t-foreach="properties" t-as="p">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h2 class="h5 mb-2">
+                    <a t-attf-href="/estate/#{p.id}">
+                      <t t-esc="p.display_name"/>
+                    </a>
+                  </h2>
+                  <p class="mb-1"><strong>Highest Offer:</strong> <span t-field="p.best_price"/></p>
+                  <p class="mb-1"><strong>Availability:</strong> <span t-field="p.date_availability" t-options="{'format': 'short'}"/></p>
+                  <p class="text-muted small mb-0">
+                    <t t-esc="(p.living_area or 0)"/> m²
+                    <t t-if="p.garden"> · garden <t t-esc="(p.garden_area or 0)"/> m²</t>
+                  </p>
+                </div>
+                <div class="card-footer bg-white">
+                  <a class="btn btn-primary btn-sm" t-attf-href="/estate/#{p.id}">View details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Simple pager -->
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <a class="btn btn-outline-secondary btn-sm" t-if="has_prev" t-attf-href="/estate?page=#{prev_page}">« Previous</a>
+            <span/>
+            <a class="btn btn-outline-secondary btn-sm" t-if="has_next" t-attf-href="/estate?page=#{next_page}">Next »</a>
+          </div>
+        </t>
+      </div>
+    </t>
+  </template>
+
+  <!-- DETAIL: /estate/<id> -->
+  <template id="website_estate_detail" name="Estate (Website Detail)">
+    <t t-call="website.layout">
+      <div class="container my-4">
+        <!-- simple breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="fa fa-home fa-lg me-1" aria-hidden="true"></i>Home</a></li>
+              <li class="breadcrumb-item"><a href="/estate"><i class="breadcrumb-item active" aria-hidden="false"></i>Estate</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><t t-esc="estate.display_name"/></li>
+          </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h1 class="h3 mb-0"><t t-esc="estate.display_name"/></h1>
+          <a class="btn btn-outline-secondary btn-sm" href="/estate">← Back to list</a>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-body">
+            <p><strong>Expected price:</strong> <span t-field="estate.expected_price"/></p>
+            <p><strong>Highest offer:</strong> <span t-field="estate.best_price"/></p>
+            <p><strong>Property type:</strong> <span t-field="estate.property_type_id"/></p>
+            <p><strong>Tags:</strong> <span t-field="estate.tag_ids"/></p>
+            <p><strong>Facades:</strong> <span t-field="estate.facades"/></p>
+            <p><strong>Status:</strong> <span t-field="estate.state"/></p>
+            <p><strong>Availability:</strong> <span t-field="estate.date_availability" t-options="{'format': 'short'}"/></p>
+            <p><strong>Bedrooms:</strong> <t t-esc="estate.bedrooms or 0"/></p>
+            <p><strong>Living area:</strong> <t t-esc="estate.living_area or 0"/> m²</p>
+            <t t-if="estate.garden">
+              <p><strong>Garden area:</strong> <t t-esc="estate.garden_area or 0"/> m²</p>
+            </t>
+            <p><strong>Total area:</strong> <span t-field="estate.total_area"/></p>
+            <t t-if="estate.description">
+              <hr/>
+              <p class="mt-3"><strong>Description</strong></p>
+              <div t-esc="estate.description"/>
+            </t>
+          </div>
+        </div>
+
+        <!--Login-gate for offers -->
+        <div class="d-flex gap-2">
+          <t t-if="request.env.user._is_public()">
+            <a class="btn btn-primary" t-attf-href="/web/login?redirect=/my/estate/properties/#{estate.id}">
+              Log in to place a bid</a>
+          </t>
+          <!-- If portal = show offers -->
+          <t t-else="">
+            <a class="btn btn-primary" t-attf-href="/my/estate/properties/#{estate.id}">
+              Place bid
+            </a>
+            <a class="btn btn-outline-secondary" href="/my/estate/my-offers">My offers</a>
+          </t>
+        </div>
+      </div>
+    </t>
+  </template>
+
+</odoo>

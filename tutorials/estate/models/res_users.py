@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import _, fields, models
 
 class ResUsers(models.Model):
     _inherit = "res.users"
@@ -9,6 +9,7 @@ class ResUsers(models.Model):
     estate_property_count = fields.Integer(
         string="Property Count",
         compute="_compute_estate_property_count",
+        compute_sudo=True
     )
 
     property_ids = fields.One2many(

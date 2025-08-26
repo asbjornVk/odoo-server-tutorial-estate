@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="portal_breadcrumbs_estate" inherit_id="portal.portal_breadcrumbs" priority="30">
+    <!-- indsæt efter <ol class="breadcrumb o_portal_submenu"> -->
+    <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+
+      <!-- Hub -->
+      <li t-if="page_name == 'estate_hub'" class="breadcrumb-item active">Estate</li>
+
+      <!-- Properties list -->
+      <li t-if="page_name in ('estate_properties','estate_property_detail')" class="breadcrumb-item">
+        <a href="/my/estate">Estate</a>
+      </li>
+      <li t-if="page_name == 'estate_properties'" class="breadcrumb-item active">Properties</li>
+
+      <!-- Property detail -->
+      <li t-if="page_name == 'estate_property_detail'" class="breadcrumb-item">
+        <a href="/my/estate/properties">Properties</a>
+      </li>
+      <li t-if="page_name == 'estate_property_detail'" class="breadcrumb-item active">
+        <t t-esc="title or (estate and estate.display_name)"/>
+      </li>
+
+      <!-- My offers -->
+      <li t-if="page_name == 'estate_my_offers'" class="breadcrumb-item">
+        <a href="/my/estate">Estate</a>
+      </li>
+      <li t-if="page_name == 'estate_my_offers'" class="breadcrumb-item active">My Offers</li>
+
+    </xpath>
+  </template>
+</odoo>

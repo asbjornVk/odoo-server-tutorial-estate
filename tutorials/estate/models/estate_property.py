@@ -1,7 +1,7 @@
+import datetime
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
-import datetime
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
@@ -29,6 +29,7 @@ class EstateProperty(models.Model):
     active = fields.Boolean(string='Active', default=True)
     property_count = fields.Integer(
         compute='_compute_property_count',
+        compute_sudo=True,
         string='Property Count')
     garden_orientation = fields.Selection(
         selection=[
@@ -76,11 +77,13 @@ class EstateProperty(models.Model):
     
     best_price = fields.Float(
         compute='_compute_best_price', 
-        store=True)
+        store=True,
+        compute_sudo=True)
     
     total_area = fields.Float(
         string="Total Area (sqm)",
         compute="_compute_total_area",
+        compute_sudo=True,
         store=True,
         readonly=True,
         help="Total area of the property including living area and garden area"
@@ -107,12 +110,15 @@ class EstateProperty(models.Model):
             rec.best_price = max(prices) if prices else 0.0
     
     def action_cancel(self):
+        self.ensure_one()
+
         for rec in self:
             if rec.state == 'sold':
                 raise UserError(_("You cannot cancel a property that has been sold."))
             rec.state = 'cancelled'
     
     def action_sold(self):
+        self.ensure_one()
         for rec in self:
             if rec.state == 'sold':
                 raise UserError(_("This property is already sold."))
@@ -122,7 +128,7 @@ class EstateProperty(models.Model):
     def _check_prices(self):
         for rec in self:
             if ( rec.selling_price and rec.selling_price < rec.expected_price * 0.9):
-                raise ValidationError(_("Selling price must be at least 90% of the expected price."))
+                raise ValidationError('Text %s',"Selling price must be at least 90% of the expected price.")
     
     @api.constrains('expected_price', 'selling_price')
     def _check_positive_prices(self):
