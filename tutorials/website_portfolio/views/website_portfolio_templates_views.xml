@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Part of Odoo. See LICENSE file for full copyright and licensing details. -->
+<odoo>
+  <data>
+
+    <!-- LIST TEMPLATE -->
+    <template id="tmpl_projects_list" name="Repos - List">
+      <t t-call="website.layout">
+        <t t-set="title">My Repositories</t>
+        <div class="container my-5">
+          <h1 class="mb-3 repo-bg">My Repositories</h1>
+          <!-- Favorites: visible when "ALL == true" -->
+          <t t-if="(not active_tag)">
+            <section class="mt-3 mb-4">
+              <h2 class="h5 repo-bg">Favorite Repositories</h2>
+              <div class="row row-cols-1 row-cols-md-3 g-3 favorites">
+                <t t-foreach="favorite_repos" t-as="proj">
+                  <div class="col">
+                    <div class="card h-100">
+                      <t t-if="proj.image_1920">
+                        <img class="card-img-top repo-img"
+                          t-att-src="'/web/image/%s/%s/image_1920' % (proj._name, proj.id)" />
+                      </t>
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          <a t-att-href="'/repos/%s' % proj.id">
+                            <t t-out="proj.name" />
+                          </a>
+                        </h5>
+                        <p class="card-text">
+                          <t t-out="proj.description_short" />
+                        </p>
+
+                        <!--  Project Tags -->
+                        <div class="small">
+                          <t t-foreach="proj.tag_ids" t-as="tag">
+                            <span
+                              t-att-class="'badge rounded-pill me-1 o_website_tag o_tag_color_%s' % (tag.color or 0)">
+                              <t t-out="tag.name" />
+                            </span>
+                          </t>
+                        </div>
+                      </div>
+                      <div class="card-footer d-flex gap-2">
+                        <a t-if="proj.repo_url" class="btn btn-outline-secondary btn-sm"
+                          t-att-href="proj.repo_url" target="_blank" rel="noopener">Repo</a>
+                        <a class="btn btn-primary btn-sm" t-att-href="'/repos/%s' % proj.id">Details</a>
+                      </div>
+                    </div>
+                  </div>
+                </t>
+              </div>
+            </section>
+          </t>
+
+          <!-- Tag filter -->
+          <div class="mb-3 tag-filter-pill" id="tag-filter">
+            <a t-att-class="'badge rounded-pill me-2 %s' % ('bg-primary text-white' if not active_tag else 'bg-light')"
+              href="/repos">All</a>
+            <t t-foreach="tags or []" t-as="tg">
+              <a t-att-href="'/repos/tag/%s' % (tg.slug or '')"
+                t-att-class="'badge rounded-pill me-2 %s' % 
+                ('bg-primary text-white' if (active_tag and active_tag.id==tg.id) else 'bg-light')">
+                <t t-out="tg.name" />
+              </a>
+            </t>
+          </div>
+
+          <!-- Cards -->
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 repo-list">
+            <t t-foreach="projects or []" t-as="proj">
+              <div class="col">
+                <div class="card h-100">
+                  <t t-if="proj.image_1920">
+                    <img class="card-img-top repo-img"
+                      t-att-src="'/web/image/%s/%s/image_1920' % (proj._name, proj.id)" />
+                  </t>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a t-att-href="'/repos/%s' % proj.id">
+                        <t t-out="proj.name" />
+                      </a>
+                    </h5>
+                    <p class="card-text">
+                      <t t-out="proj.description_short" />
+                    </p>
+                    <div class="small">
+                      <t t-foreach="proj.tag_ids" t-as="tag">
+                        <span
+                          t-att-class="'badge rounded-pill me-1 o_website_tag o_tag_color_%s' % (tag.color or 0)">
+                          <t t-out="tag.name" />
+                        </span>
+                      </t>
+                    </div>
+                  </div>
+                  <div class="card-footer d-flex gap-2">
+                    <a t-if="proj.repo_url" class="btn btn-outline-secondary btn-sm"
+                      t-att-href="proj.repo_url" target="_blank" rel="noopener">Repo</a>
+                    <a class="btn btn-primary btn-sm" t-att-href="'/repos/%s' % proj.id">Details</a>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </div>
+
+          <div t-if="not projects" class="alert alert-info mt-3">No projects to show.</div>
+        </div>
+      </t>
+    </template>
+
+    <!-- DETAIL TEMPLATE -->
+    <template id="tmpl_project_detail" name="Repo - Detail">
+      <t t-call="website.layout">
+        <t t-set="title">
+          <t t-out="project.name" />
+        </t>
+        <div class="container my-5 repo-bg">
+
+          <a href="/repos" class="text-muted">← Back</a>
+          <div class="row mt-2">
+            <div class="col-lg-8">
+              <h1 class="repo-bg">
+                <t t-out="project.name" />
+              </h1>
+              <p class="lead">
+                <t t-out="project.description_short" />
+              </p>
+              <div t-field="project.description_long" />
+            </div>
+            <div class="col-lg-4">
+              <img t-if="project.image_1920" class="img-fluid rounded mb-3"
+                t-att-src="'/web/image/%s/%s/image_1920' % (project._name, project.id)" />
+              <div class="mb-3">
+                <t t-foreach="project.tag_ids" t-as="tg">
+                  <span
+                    t-att-class="'badge rounded-pill me-1 o_website_tag o_tag_color_%s' % (tg.color or 0)">
+                    <t t-out="tg.name" />
+                  </span>
+                </t>
+              </div>
+              <a t-if="project.repo_url" class="btn btn-primary w-100"
+                t-att-href="project.repo_url" target="_blank" rel="noopener">Open Repository</a>
+            </div>
+          </div>
+        </div>
+      </t>
+    </template>
+
+  </data>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Part of Odoo. See LICENSE file for full copyright and licensing details. -->
+<odoo>
+  <record id="github_import_wizard_view_form" model="ir.ui.view">
+    <field name="name">website.portfolio.github_wizard.view.form</field>
+    <field name="model">website_portfolio.github_wizard</field>
+    <field name="arch" type="xml">
+      <form string="Import from GitHub">
+        <group>
+          <group>
+            <field name="owner" placeholder="e.g. odoo OR https://github.com/odoo/odoo" />
+            <field name="repo" placeholder="e.g. odoo (optional for Import All)" />
+            <field name="token" password="True"
+              placeholder="Optional token (private repos and higher limits)" />
+          </group>
+          <group>
+            <field name="publish_now" />
+            <field name="publish_from" modifiers="{'invisible':[('publish_now','=',True)]}" />
+            <field name="publish_to" modifiers="{'invisible':[('publish_now','=',True)]}" />
+            <field name="import_topics" />
+            <field name="import_primary_language" />
+            <field name="import_all_languages" />
+            <field name="include_private" />
+            <field name="skip_existing" />
+            <field name="fetch_readme" />
+          </group>
+        </group>
+        <footer>
+          <button string="Cancel" class="btn-secondary" special="cancel" />
+          <button name="action_import" type="object" string="Import" class="btn-primary" />
+          <button name="action_import_all" type="object" string="Import All Repos"
+            class="btn-secondary" />
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_github_import_wizard" model="ir.actions.act_window">
+    <field name="name">Import from GitHub</field>
+    <field name="res_model">website_portfolio.github_wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    <field name="view_id" ref="github_import_wizard_view_form" />
+  </record>
+
+  <menuitem id="menu_portfolio_import_github"
+    name="Import from GitHub"
+    parent="menu_website_portfolio_root"
+    action="action_github_import_wizard"
+    sequence="40" />
+</odoo>

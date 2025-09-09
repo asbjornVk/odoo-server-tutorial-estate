@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acc_website_portfolio_user,access_website_portfolio_user,model_website_portfolio,base.group_user,1,1,1,1
+acc_website_portfolio_tag_user,access_website_portfolio_tag_user,model_website_portfolio_tag,base.group_user,1,1,1,1
+website_portfolio_github_wizard_access,website_portfolio.github.wizard,model_website_portfolio_github_wizard,base.group_user,1,0,1,0

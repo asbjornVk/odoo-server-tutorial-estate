@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Part of Odoo. See LICENSE file for full copyright and licensing details. -->
+ <odoo>
+
+  <!-- PROJECT LIST/FORM -->
+  <record id="website_portfolio_view_list" model="ir.ui.view">
+    <field name="name">website.portfolio.view.list</field>
+    <field name="model">website_portfolio</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name" />
+        <field name="website_published" />
+        <field name="publish_from" />
+        <field name="publish_to" />
+        <field name="repo_url" />
+      </list>
+    </field>
+  </record>
+
+  <record id="website_portfolio_view_form" model="ir.ui.view">
+    <field name="name">website.portfolio.view.form</field>
+    <field name="model">website_portfolio</field>
+    <field name="arch" type="xml">
+      <form string="Project">
+        <sheet>
+          <group>
+            <field name="name" />
+            <field name="repo_url" />
+            <field name="tag_ids" widget="many2many_tags" />
+            <field name="image_1920" widget="image" />
+          </group>
+          <notebook>
+            <page string="Descriptions">
+              <group>
+                <field name="description_short" />
+                <field name="description_long" widget="html" />
+              </group>
+            </page>
+            <page string="Publishing">
+              <group>
+                <field name="website_published" />
+                <field name="publish_from" />
+                <field name="publish_to" />
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- TAG LIST/FORM -->
+  <record id="website_portfolio_tag_view_list" model="ir.ui.view">
+    <field name="name">website.portfolio.tag.view.list</field>
+    <field name="model">website_portfolio.tag</field>
+    <field name="arch" type="xml">
+      <list editable="bottom" string="Tags">
+        <field name="usage_count" string="Usage count" readonly="1" />
+        <field name="color" string="Color" />
+        <field name="color_display" widget="html" string="Color Display" />
+        <field name="name" string="Name" />
+        <field name="slug" string="Slug" readonly="1" />
+      </list>
+    </field>
+  </record>
+
+  <record id="website_portfolio_tag_view_form" model="ir.ui.view">
+    <field name="name">website.portfolio.tag.view.form</field>
+    <field name="model">website_portfolio.tag</field>
+    <field name="arch" type="xml">
+      <form string="Tag">
+        <header>
+          <button type="object" name="action_open_projects" class="oe_stat_button"
+            icon="fa-folder-open">
+            <field name="usage_count" widget="statinfo" string="Projects" />
+          </button>
+        </header>
+        <sheet>
+          <group>
+            <field name="name" />
+            <field name="color" />
+            <field name="slug" readonly="1" />
+            <field name="usage_count" readonly="1" />
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- MENUS & ACTIONS -->
+  <menuitem id="menu_website_portfolio_root" name="Portfolio" sequence="10" />
+
+  <record id="action_website_portfolio" model="ir.actions.act_window">
+    <field name="name">Projects</field>
+    <field name="res_model">website_portfolio</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <menuitem id="menu_portfolio_project" name="Projects"
+    parent="menu_website_portfolio_root" action="action_website_portfolio" />
+
+  <record id="action_website_portfolio_tag" model="ir.actions.act_window">
+    <field name="name">Tags</field>
+    <field name="res_model">website_portfolio.tag</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <menuitem id="menu_portfolio_tag" name="Tags"
+    parent="menu_website_portfolio_root" action="action_website_portfolio_tag" />
+
+</odoo>

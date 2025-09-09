@@ -1,0 +1,70 @@
+/* Part of Odoo. See LICENSE file for full copyright and licensing details. */
+
+/* Pill badges for website_portfolio tags (frontend) */
+
+$tag-colors: (
+  0: #6c757d,
+  1: #1abc9c,
+  2: #3498db,
+  3: #9b59b6,
+  4: #e67e22,
+  5: #e74c3c,
+  6: #2ecc71,
+  7: #95a5a6,
+  8: #16a085,
+  9: #2980b9
+);
+
+.badge.o_website_tag {
+  border: 0 !important;
+  font-weight: 500;
+  line-height: 1;
+}
+
+@each $idx, $bg in $tag-colors {
+  .badge.o_website_tag.o_tag_color_#{$idx} {
+    background-color: #{$bg} !important;
+    color: #fff !important;
+  }
+  .badge.o_website_tag.o_tag_color_#{$idx}:hover {
+    background-color: darken($bg, 6%) !important;
+    color: #fff !important;
+  }
+}
+
+// Big pill background
+.tag-filter-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 9999px;     
+  background-color: #c0bfbf;   
+}
+
+.tag-filter-pill .badge {
+  margin-bottom: 4px;
+}
+
+/* Safety: if tags render without .badge */
+.o_website_tag[class*="o_tag_color_"] {
+  border: 0 !important;
+}
+
+// Repo BG
+.repo-bg {
+  background: #fff;
+  color: #000;
+  padding: 6px 12px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+// Img rules for rendering - size
+.card-img-top.repo-img {
+  max-height: 120px !important;
+  max-width: 120px !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: scale-down;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Part of Odoo. See LICENSE file for full copyright and licensing details. -->
+ <odoo>
+  <record id="website_menu_repos" model="website.menu">
+    <field name="name">My Repositories</field>
+    <field name="url">/repos</field>
+    <field name="website_id" ref="website.default_website"/>
+    <field name="parent_id" ref="website.main_menu"/>
+    <field name="sequence">25</field>
+  </record>
+</odoo>
