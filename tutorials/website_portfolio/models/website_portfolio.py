@@ -4,7 +4,7 @@ from odoo import models, fields
 
 
 class WebsitePortfolio(models.Model):
-    _name = "website_portfolio"
+    _name = "website.portfolio"
     _description = "Website Portfolio"
     _inherit = ["website.published.mixin", "website.seo.metadata", "mail.thread"]
     _order = "publish_from desc, name"
@@ -15,7 +15,7 @@ class WebsitePortfolio(models.Model):
     description_long = fields.Html(sanitize=True)
     image_1920 = fields.Image(max_width=1920, max_height=1920)
 
-    tag_ids = fields.Many2many("website_portfolio.tag", string="Tags")
+    tag_ids = fields.Many2many("website.portfolio.tag", string="Tags")
 
     publish_from = fields.Datetime("Publish From")
     publish_to   = fields.Datetime("Publish To")

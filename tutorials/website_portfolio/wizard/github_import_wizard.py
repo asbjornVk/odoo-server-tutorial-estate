@@ -22,7 +22,7 @@ def _first_paragraph_text(html: str, max_len: int = 240) -> str:
     return text[:max_len]
 
 class WebsitePortfolioGithubWizard(models.TransientModel):
-    _name = "website_portfolio.github_wizard"
+    _name = "website.portfolio.github_wizard"
     _description = "Import project from GitHub"
 
     owner = fields.Char(required=True, help="GitHub owner/user/org or full URL")
@@ -185,8 +185,8 @@ class WebsitePortfolioGithubWizard(models.TransientModel):
     def _upsert_from_meta(self, meta, publish_now, publish_from, publish_to,
                           fetch_readme, skip_existing):
         """Create or update a project record from a repo JSON."""
-        Project = self.env["website_portfolio"].sudo()
-        Tag = self.env["website_portfolio.tag"].sudo()
+        Project = self.env["website.portfolio"].sudo()
+        Tag = self.env["website.portfolio.tag"].sudo()
 
         owner_login = (meta.get("owner") or {}).get("login") or ""
         repo_name = meta.get("name") or ""
@@ -264,8 +264,8 @@ class WebsitePortfolioGithubWizard(models.TransientModel):
         )
         return {
             "type": "ir.actions.act_window",
-            "res_model": "website_portfolio",
-            "res_id": (rec.id if rec else self.env["website_portfolio"].search(
+            "res_model": "website.portfolio",
+            "res_id": (rec.id if rec else self.env["website.portfolio"].search(
                 [("github_full_name", "=", f"{owner}/{repo}")], limit=1).id),
             "view_mode": "form",
             "target": "current",

@@ -1,15 +1,15 @@
 /* Part of Odoo. See LICENSE file for full copyright and licensing details. */
 /* Limit width rules to portfolio models only */
-.o_list_view[data-model="website_portfolio.tag"] table.o_list_table,
-.o_list_view[data-model="website_portfolio"] table.o_list_table {
+.o_list_view[data-model="website.portfolio.tag"] table.o_list_table,
+.o_list_view[data-model="website.portfolio"] table.o_list_table {
   table-layout: fixed;
 }
 
 /* Name column width */
-.o_list_view[data-model="website_portfolio.tag"] th[data-name="name"],
-.o_list_view[data-model="website_portfolio.tag"] td[data-name="name"],
-.o_list_view[data-model="website_portfolio"]     th[data-name="name"],
-.o_list_view[data-model="website_portfolio"]     td[data-name="name"] {
+.o_list_view[data-model="website.portfolio.tag"] th[data-name="name"],
+.o_list_view[data-model="website.portfolio.tag"] td[data-name="name"],
+.o_list_view[data-model="website.portfolio"]     th[data-name="name"],
+.o_list_view[data-model="website.portfolio"]     td[data-name="name"] {
   width: 150px !important;
   max-width: 150px;
   overflow: hidden;
@@ -18,8 +18,8 @@
 }
 
 /* Slug column width (tags list) */
-.o_list_view[data-model="website_portfolio.tag"] th[data-name="slug"],
-.o_list_view[data-model="website_portfolio.tag"] td[data-name="slug"] {
+.o_list_view[data-model="website.portfolio.tag"] th[data-name="slug"],
+.o_list_view[data-model="website.portfolio.tag"] td[data-name="slug"] {
   width: 110px !important;
   max-width: 110px;
 }

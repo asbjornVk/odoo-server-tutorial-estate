@@ -5,7 +5,7 @@
   <!-- PROJECT LIST/FORM -->
   <record id="website_portfolio_view_list" model="ir.ui.view">
     <field name="name">website.portfolio.view.list</field>
-    <field name="model">website_portfolio</field>
+    <field name="model">website.portfolio</field>
     <field name="arch" type="xml">
       <list>
         <field name="name" />
@@ -19,7 +19,7 @@
 
   <record id="website_portfolio_view_form" model="ir.ui.view">
     <field name="name">website.portfolio.view.form</field>
-    <field name="model">website_portfolio</field>
+    <field name="model">website.portfolio</field>
     <field name="arch" type="xml">
       <form string="Project">
         <sheet>
@@ -52,7 +52,7 @@
   <!-- TAG LIST/FORM -->
   <record id="website_portfolio_tag_view_list" model="ir.ui.view">
     <field name="name">website.portfolio.tag.view.list</field>
-    <field name="model">website_portfolio.tag</field>
+    <field name="model">website.portfolio.tag</field>
     <field name="arch" type="xml">
       <list editable="bottom" string="Tags">
         <field name="usage_count" string="Usage count" readonly="1" />
@@ -66,7 +66,7 @@
 
   <record id="website_portfolio_tag_view_form" model="ir.ui.view">
     <field name="name">website.portfolio.tag.view.form</field>
-    <field name="model">website_portfolio.tag</field>
+    <field name="model">website.portfolio.tag</field>
     <field name="arch" type="xml">
       <form string="Tag">
         <header>
@@ -92,7 +92,7 @@
 
   <record id="action_website_portfolio" model="ir.actions.act_window">
     <field name="name">Projects</field>
-    <field name="res_model">website_portfolio</field>
+    <field name="res_model">website.portfolio</field>
     <field name="view_mode">list,form</field>
   </record>
   <menuitem id="menu_portfolio_project" name="Projects"
@@ -100,7 +100,7 @@
 
   <record id="action_website_portfolio_tag" model="ir.actions.act_window">
     <field name="name">Tags</field>
-    <field name="res_model">website_portfolio.tag</field>
+    <field name="res_model">website.portfolio.tag</field>
     <field name="view_mode">list,form</field>
   </record>
   <menuitem id="menu_portfolio_tag" name="Tags"

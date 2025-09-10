@@ -3,7 +3,7 @@
 <odoo>
   <record id="github_import_wizard_view_form" model="ir.ui.view">
     <field name="name">website.portfolio.github_wizard.view.form</field>
-    <field name="model">website_portfolio.github_wizard</field>
+    <field name="model">website.portfolio.github_wizard</field>
     <field name="arch" type="xml">
       <form string="Import from GitHub">
         <group>
@@ -37,7 +37,7 @@
 
   <record id="action_github_import_wizard" model="ir.actions.act_window">
     <field name="name">Import from GitHub</field>
-    <field name="res_model">website_portfolio.github_wizard</field>
+    <field name="res_model">website.portfolio.github_wizard</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
     <field name="view_id" ref="github_import_wizard_view_form" />

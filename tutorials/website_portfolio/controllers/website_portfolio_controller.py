@@ -21,8 +21,8 @@ class WebsitePortfolioController(http.Controller):
         type='http', auth='public', website=True, sitemap=True
     )
     def list_projects(self, slug=None, tag_id=None, **kw):
-        Project = request.env['website_portfolio'].sudo()
-        Tag = request.env['website_portfolio.tag'].sudo()
+        Project = request.env['website.portfolio'].sudo()
+        Tag = request.env['website.portfolio.tag'].sudo()
         domain = list(live_domain())
         active_tag = None
 
@@ -56,7 +56,7 @@ class WebsitePortfolioController(http.Controller):
     @http.route(['/repos/<int:project_id>'], type='http', auth='public', website=True, sitemap=True)
     def project_detail(self, project_id, **kw):
         """Detail page is only accessible for 'live' records; otherwise 404."""
-        Project = request.env['website_portfolio'].sudo()
+        Project = request.env['website.portfolio'].sudo()
         project = Project.search(live_domain() + [('id', '=', project_id)], limit=1)
         if not project:
             raise NotFound()

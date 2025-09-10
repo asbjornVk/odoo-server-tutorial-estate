@@ -28,7 +28,7 @@ def _slugify(s: str) -> str:
 
 
 class WebsitePortfolioTag(models.Model):
-    _name = "website_portfolio.tag"
+    _name = "website.portfolio.tag"
     _description = "Project Tag"
     _order = "name"
 
@@ -37,6 +37,10 @@ class WebsitePortfolioTag(models.Model):
     color = fields.Integer(default=0)
     color_display = fields.Html(string='Color Preview', compute='_compute_color_display', store=False)
     usage_count = fields.Integer(string="Used By", compute="_compute_usage_count", readonly=True)
+    
+    _sql_constraints = [
+        ('uniq_tag_slug', 'unique(slug)', 'A tag with this slug already exists.')
+    ]
     
     @api.depends("color")
     def _compute_color_display(self):
@@ -47,10 +51,6 @@ class WebsitePortfolioTag(models.Model):
                 f'style="width:16px;height:16px;border-radius:4px;'
                 f'border:1px solid #ccc;background:{hex_};"></div>'
             )
-
-    _sql_constraints = [
-        ('uniq_tag_slug', 'unique(slug)', 'A tag with this slug already exists.')
-    ]
 
     @api.constrains('color')
     def _check_color_range(self):
@@ -78,7 +78,7 @@ class WebsitePortfolioTag(models.Model):
         return super().write(vals)
     
     def _compute_usage_count(self):
-        Project = self.env['website_portfolio'].sudo()
+        Project = self.env['website.portfolio'].sudo()
         for tag in self:
             tag.usage_count = Project.search_count([('tag_ids', 'in', tag.id)])
     
@@ -87,7 +87,7 @@ class WebsitePortfolioTag(models.Model):
         return {
         "type": "ir.actions.act_window",
         "name": "Projects",
-        "res_model": "website_portfolio",
+        "res_model": "website.portfolio",
         "view_mode": "list,form",
         "domain": [("tag_ids", "in", self.id)],
         "target": "current",
